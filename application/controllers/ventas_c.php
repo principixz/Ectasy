@@ -15,9 +15,11 @@ class Ventas_c extends CI_Controller {
 		$permisos = $this->Principal_m->traer_modulos();
 		$paquetes = $this->Membresias_m->traer_paquetes();
 		$transaccion = $this->Membresias_m->modalidad_transaccion();
+		$almacen = $this->Ventas_m->almacen();
 		$data["permisos"] = $permisos;
 		$data["paquetes"] = $paquetes;
 		$data["transaccion"] = $transaccion;
+		$data["almacen"] = $almacen;
 		$this->load->view('Membresias/membresias_v.php',$data);
 	}
 
@@ -47,32 +49,24 @@ class Ventas_c extends CI_Controller {
         $data.=$number;
         return $data;
     }
-
-	/**public function precios(){
-		$precios = $this->Membresias_m->traer_precios();
-		$html = '';
-			foreach ($precios as $value) {	
-				$html .= '1/'.$value->precio.'/';
-				$time = time(); 
-				$fecha = date("d-m-Y",$time);
-				if($value->vigencia == 'Dia'){
-					$fecha = strtotime('+0 day',strtotime($fecha));
-					$fecha = date("d-m-Y",$fecha);
-				}
-				if($value->vigencia == 'Mes'){
-					$fecha = strtotime('+1 month',strtotime($fecha));
-					$fecha = date("d-m-Y",$fecha);
-				}
-				$html .= '2/'.$fecha;
-			}
-			echo $html;
-	}**/
-
 	public function paquetes(){
 		
 		$datos = $this->Ventas_m->paquetes();
 		sleep(1);
 		echo json_encode($datos);
+	}
+
+	public function productos(){
+		$datos = $this->Ventas_m->productos();
+		sleep(1);
+		echo json_encode($datos);
+	}
+	public function parm(){
+		$datos = $this->Ventas_m->parm();
+		foreach ($datos as $value) {
+			$igv = $value->valor;
+		}
+		echo $igv;
 	}
 
 	
